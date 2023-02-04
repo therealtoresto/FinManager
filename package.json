@@ -1,0 +1,10 @@
+{
+  "name": "FinManager",
+  "version": "0.1.0",
+  "description": "This is financial manager server",
+  "main": "index.js",
+  "repository": "https://github.com/therealtoresto/FinManager.git",
+  "author": "therealtoresto",
+  "license": "MIT",
+  "dependencies": {}
+}
