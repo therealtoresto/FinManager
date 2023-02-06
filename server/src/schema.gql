@@ -10,5 +10,12 @@ type Bank {
 }
 
 type Query {
-  getBank(id: Int!): Bank!
+  getBankById(id: Int!): Bank!
+  getBanks: [Bank!]!
+}
+
+type Mutation {
+  createBank(name: String!, balance: Float!): Bank!
+  deleteBank(id: Int!): Bank!
+  updateBank(id: Int!, name: String!, balance: Float!): Bank!
 }

@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Bank } from './bank.entity';
+import { BankArgs } from './bank.model';
 
 @Injectable()
 export class BankService {
@@ -18,11 +19,19 @@ export class BankService {
     return this.bankRepository.findOneBy({ id });
   }
 
-  async delete(id: string): Promise<void> {
+  create(data: BankArgs): Promise<Bank> {
+    return this.bankRepository.save(this.bankRepository.create(data));
+  }
+
+  async delete(id: number): Promise<void> {
     await this.bankRepository.delete(id);
   }
 
-  async createBank(bank: Bank): Promise<void> {
-    this.bankRepository.create(bank);
+  async update(id: number, data: BankArgs): Promise<Bank> {
+    const bank = await this.findOneById(id);
+    if (!bank) return;
+    bank.name = data.name;
+    bank.balance = data.balance;
+    return this.bankRepository.save(bank);
   }
 }

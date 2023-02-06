@@ -1,11 +1,21 @@
-import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { Field, ID, ObjectType, ArgsType } from '@nestjs/graphql';
+import { MinLength } from 'class-validator';
 
 @ObjectType({ description: 'bank' })
 export class Bank {
-  @Field((type) => ID)
-  id: string;
+  @Field(() => ID)
+  id: number;
 
   @Field()
+  name: string;
+
+  @Field()
+  balance: number;
+}
+@ArgsType()
+export class BankArgs {
+  @Field()
+  @MinLength(1)
   name: string;
 
   @Field()
