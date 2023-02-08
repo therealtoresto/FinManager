@@ -2,20 +2,58 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-"""bank"""
+type Category {
+  id: ID!
+  name: String!
+}
+
+type Transaction {
+  id: Int!
+  amount: Float!
+  type: String!
+  bank: Bank!
+  categories: [Category!]!
+}
+
 type Bank {
   id: ID!
   name: String!
   balance: Float!
 }
 
+input category_input {
+  id: ID!
+  name: String!
+}
+
+input bank_input {
+  id: ID!
+  name: String!
+  balance: Float!
+}
+
 type Query {
-  getBankById(id: Int!): Bank!
+  getBankById(id: ID!): Bank!
   getBanks: [Bank!]!
+  getCategoryById(id: ID!): Category!
+  getCategories: [Category!]!
+  getTransactions: [Transaction!]!
 }
 
 type Mutation {
   createBank(name: String!, balance: Float!): Bank!
-  deleteBank(id: Int!): Bank!
-  updateBank(id: Int!, name: String!, balance: Float!): Bank!
+  deleteBank(id: ID!): Bank!
+  updateBank(id: ID!, name: String!, balance: Float!): Bank!
+  createCategory(name: String!): Category!
+  deleteCategory(id: ID!): Category!
+  updateCategory(id: ID!, name: String!): Category!
+  createTransaction(transaction: transaction_input!): Transaction!
+  deleteTransaction(id: ID!): Transaction!
+}
+
+input transaction_input {
+  amount: Float!
+  type: String!
+  bankId: Float!
+  categoriesIds: [ID!]!
 }

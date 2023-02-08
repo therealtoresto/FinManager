@@ -2,11 +2,13 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Bank } from './bank/bank.entity';
-import { BankModule } from './bank/bank.module';
+import { Bank } from '../models/bank.model';
+import { BankModule } from './bank.module';
 import { join } from 'path';
-import { Transaction } from './transaction/transaction.model';
-import { Category } from './category/category.model';
+import { Transaction } from '../models/transaction.model';
+import { Category } from '../models/category.model';
+import { CategoryModule } from './category.module';
+import { TransactionModule } from './transaction.module';
 
 @Module({
   imports: [
@@ -25,6 +27,8 @@ import { Category } from './category/category.model';
       synchronize: true,
     }),
     BankModule,
+    CategoryModule,
+    TransactionModule,
   ],
 })
 export class AppModule {}
