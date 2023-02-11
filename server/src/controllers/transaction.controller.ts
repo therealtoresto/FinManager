@@ -1,4 +1,4 @@
-import { Controller, Get, Post } from '@nestjs/common';
+import { Controller, Get, Param, Post } from '@nestjs/common';
 import { TransactionService } from '../services/transaction.service';
 import {
   Transaction,
@@ -9,17 +9,21 @@ import {
 export class TransactionController {
   constructor(private readonly transactionService: TransactionService) {}
 
-  @Get()
-  getTransactions(): Promise<Transaction[]> {
-    return this.transactionService.findAll();
+  @Get('all/:take?/:skip?')
+  getTransactions(
+    @Param('take') take?: number,
+    @Param('skip') skip?: number,
+  ): Promise<Transaction[]> {
+    console.log('resolver', take, skip);
+    return this.transactionService.findAll({ take, skip });
   }
 
-  @Post()
+  @Post('create')
   createTransaction(args: TransactionCreateInput): Promise<Transaction> {
     return this.transactionService.create(args);
   }
 
-  @Post()
+  @Post('delete')
   deleteTransaction(id: number): Promise<void> {
     return this.transactionService.delete(id);
   }

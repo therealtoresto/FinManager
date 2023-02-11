@@ -1,4 +1,4 @@
-import { Controller, Get, Post } from '@nestjs/common';
+import { Controller, Get, Param, Post } from '@nestjs/common';
 import { BankService } from '../services/bank.service';
 import { Bank } from '../models/bank.model';
 
@@ -6,27 +6,27 @@ import { Bank } from '../models/bank.model';
 export class BankController {
   constructor(private readonly bankService: BankService) {}
 
-  @Get()
+  @Get('all')
   getBanks(): Promise<Bank[]> {
     return this.bankService.findAll();
   }
 
   @Get(':id')
-  getBank(id: number): Promise<Bank> {
+  getBank(@Param('id') id: number): Promise<Bank> {
     return this.bankService.findOneById(id);
   }
 
-  @Post()
+  @Post('create')
   createBank(args: Bank): Promise<Bank> {
     return this.bankService.create(args);
   }
 
-  @Post()
+  @Post('delete')
   deleteBank(id: number): Promise<Bank> {
     return this.bankService.delete(id);
   }
 
-  @Post()
+  @Post('update')
   updateBank(args: Bank): Promise<Bank> {
     return this.bankService.update(args);
   }

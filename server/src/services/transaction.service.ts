@@ -2,6 +2,7 @@ import { Inject, Injectable, forwardRef } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Between, In, Repository } from 'typeorm';
 import {
+  FetchTransactionsArgs,
   Transaction,
   TransactionCreateInput,
 } from '../models/transaction.model';
@@ -19,13 +20,19 @@ export class TransactionService {
     private categoryService: CategoryService,
   ) {}
 
-  findAll(): Promise<Transaction[]> {
-    return this.transactionRepository.find({
+  async findAll(query: FetchTransactionsArgs): Promise<Transaction[]> {
+    const take = query.take || 10;
+    const skip = query.skip || 0;
+    const result = this.transactionRepository.find({
       relations: {
         bank: true,
         categories: true,
       },
+      take: take,
+      skip: skip,
     });
+
+    return result;
   }
 
   findOneByBankId(id: number): Promise<Transaction> {
@@ -83,29 +90,5 @@ export class TransactionService {
 
   async delete(id: number): Promise<void> {
     await this.transactionRepository.delete(id);
-  }
-
-  async getStatistics(
-    categoryIds: number[],
-    fromPeriod: Date,
-    toPeriod: Date,
-  ): Promise<Map<string, number>> {
-    const transactions = await this.transactionRepository.find({
-      where: {
-        createdAt: Between(fromPeriod, toPeriod),
-        categories: { id: In(categoryIds) },
-      },
-    });
-    const result = new Map<string, number>();
-    transactions.forEach(async (tran) => {
-      (await tran.categories).forEach((category) => {
-        if (!categoryIds.includes(category.id)) return;
-        if (!result[category.name]) result[category.name] = 0;
-        else if (tran.type === 'consumable')
-          result[category.name] -= result[category.name];
-        else result[category.name] += result[category.name];
-      });
-    });
-    return result;
   }
 }

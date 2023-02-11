@@ -46,10 +46,15 @@ input bank_input {
 type Query {
   getBankById(id: ID!): Bank!
   getBanks: [Bank!]!
-  getTransactions: [Transaction!]!
+  getTransactions(args: transaction_args!): [Transaction!]!
   getCategoryById(id: ID!): Category!
   getCategories: [Category!]!
   getStatisctics(ids: [Int!]!, from: DateTime!, to: DateTime!): [StatisticsOutput!]!
+}
+
+input transaction_args {
+  skip: Int! = 0
+  take: Int! = 25
 }
 
 type Mutation {

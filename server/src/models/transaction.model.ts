@@ -7,7 +7,14 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Field, Int, ObjectType, InputType, Float } from '@nestjs/graphql';
+import {
+  Field,
+  Int,
+  ObjectType,
+  InputType,
+  Float,
+  ArgsType,
+} from '@nestjs/graphql';
 import { Category } from 'src/models/category.model';
 import { Bank } from 'src/models/bank.model';
 
@@ -55,4 +62,13 @@ export class TransactionCreateInput {
 
   @Field(() => [Int])
   categoriesIds: number[];
+}
+
+@InputType('transaction_args')
+export class FetchTransactionsArgs {
+  @Field(() => Int)
+  skip = 0;
+
+  @Field(() => Int)
+  take = 25;
 }
