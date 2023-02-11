@@ -22,7 +22,7 @@ export class CategoryController {
   }
 
   @Post()
-  deleteCategory(id: number): Promise<void> {
+  deleteCategory(id: number): Promise<Category> {
     return this.categoryService.delete(id);
   }
 

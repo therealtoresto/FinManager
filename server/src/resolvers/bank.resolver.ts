@@ -31,9 +31,9 @@ export class BankResolver {
 
   @Mutation(() => Bank, { name: 'updateBank' })
   async updateBank(
-    @Args({ name: 'id', type: () => ID! }) id: number,
-    @Args({ name: 'name', type: () => String! }) name: string,
-    @Args({ name: 'balance', type: () => Float! }) balance: number,
+    @Args({ name: 'id', type: () => ID }) id: number,
+    @Args({ name: 'name', type: () => String }) name: string,
+    @Args({ name: 'balance', type: () => Float }) balance: number,
   ): Promise<Bank> {
     return this.bankService.update({ id, name, balance });
   }

@@ -3,7 +3,7 @@
 # ------------------------------------------------------
 
 type Category {
-  id: ID!
+  id: Int!
   name: String!
 }
 
@@ -13,21 +13,32 @@ type Transaction {
   type: String!
   bank: Bank!
   categories: [Category!]!
+  createdAt: DateTime!
 }
 
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 type Bank {
-  id: ID!
+  id: Int!
   name: String!
   balance: Float!
 }
 
+type StatisticsOutput {
+  name: String!
+  value: Float!
+}
+
 input category_input {
-  id: ID!
+  id: Int!
   name: String!
 }
 
 input bank_input {
-  id: ID!
+  id: Int!
   name: String!
   balance: Float!
 }
@@ -35,25 +46,26 @@ input bank_input {
 type Query {
   getBankById(id: ID!): Bank!
   getBanks: [Bank!]!
+  getTransactions: [Transaction!]!
   getCategoryById(id: ID!): Category!
   getCategories: [Category!]!
-  getTransactions: [Transaction!]!
+  getStatisctics(ids: [Int!]!, from: DateTime!, to: DateTime!): [StatisticsOutput!]!
 }
 
 type Mutation {
   createBank(name: String!, balance: Float!): Bank!
   deleteBank(id: ID!): Bank!
   updateBank(id: ID!, name: String!, balance: Float!): Bank!
+  createTransaction(transaction: transaction_input!): Transaction!
+  deleteTransaction(id: Int!): Transaction!
   createCategory(name: String!): Category!
   deleteCategory(id: ID!): Category!
   updateCategory(id: ID!, name: String!): Category!
-  createTransaction(transaction: transaction_input!): Transaction!
-  deleteTransaction(id: ID!): Transaction!
 }
 
 input transaction_input {
   amount: Float!
   type: String!
-  bankId: Float!
-  categoriesIds: [ID!]!
+  bankId: Int!
+  categoriesIds: [Int!]!
 }

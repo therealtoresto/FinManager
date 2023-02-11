@@ -1,12 +1,13 @@
 import {
   Column,
+  CreateDateColumn,
   Entity,
   JoinTable,
   ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Field, Int, ObjectType, InputType, ID } from '@nestjs/graphql';
+import { Field, Int, ObjectType, InputType, Float } from '@nestjs/graphql';
 import { Category } from 'src/models/category.model';
 import { Bank } from 'src/models/bank.model';
 
@@ -20,7 +21,7 @@ export class Transaction {
   id?: number;
 
   @Column()
-  @Field({ nullable: false })
+  @Field(() => Float, { nullable: false })
   amount: number;
 
   @Column()
@@ -35,19 +36,23 @@ export class Transaction {
   @JoinTable()
   @Field(() => [Category])
   categories?: Promise<Category[]>;
+
+  @CreateDateColumn()
+  @Field(() => Date)
+  createdAt: Date;
 }
 
 @InputType('transaction_input')
 export class TransactionCreateInput {
-  @Field()
+  @Field(() => Float)
   amount: number;
 
   @Field()
   type: Type;
 
-  @Field()
+  @Field(() => Int)
   bankId: number;
 
-  @Field(() => [ID])
+  @Field(() => [Int])
   categoriesIds: number[];
 }

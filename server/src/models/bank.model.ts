@@ -1,4 +1,4 @@
-import { Field, ID, ObjectType, InputType } from '@nestjs/graphql';
+import { Field, ObjectType, InputType, Float, Int } from '@nestjs/graphql';
 import { Transaction } from 'src/models/transaction.model';
 import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
@@ -7,7 +7,7 @@ import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 @ObjectType()
 export class Bank {
   @PrimaryGeneratedColumn()
-  @Field(() => ID, { nullable: false })
+  @Field(() => Int, { nullable: false })
   id?: number;
 
   @Column()
@@ -15,7 +15,7 @@ export class Bank {
   name: string;
 
   @Column()
-  @Field({ nullable: false })
+  @Field(() => Float, { nullable: false })
   balance: number;
 
   @OneToMany(() => Transaction, (transaction) => transaction.bank)

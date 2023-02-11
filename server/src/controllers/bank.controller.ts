@@ -22,7 +22,7 @@ export class BankController {
   }
 
   @Post()
-  deleteBank(id: number): Promise<void> {
+  deleteBank(id: number): Promise<Bank> {
     return this.bankService.delete(id);
   }
 

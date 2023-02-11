@@ -9,6 +9,7 @@ import { Transaction } from '../models/transaction.model';
 import { Category } from '../models/category.model';
 import { CategoryModule } from './category.module';
 import { TransactionModule } from './transaction.module';
+import { StatisticsModule } from './statistics.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { TransactionModule } from './transaction.module';
     BankModule,
     CategoryModule,
     TransactionModule,
+    StatisticsModule,
   ],
 })
 export class AppModule {}

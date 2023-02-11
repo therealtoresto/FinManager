@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Args, ID, Float } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import {
   Transaction,
   TransactionCreateInput,
@@ -23,7 +23,7 @@ export class TransactionResolver {
   }
 
   @Mutation(() => Transaction, { name: 'deleteTransaction' })
-  async deleteTransaction(@Args({ name: 'id', type: () => ID }) id: number) {
+  async deleteTransaction(@Args({ name: 'id', type: () => Int }) id: number) {
     await this.transactionService.delete(id);
     return { id };
   }

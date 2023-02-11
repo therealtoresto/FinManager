@@ -1,12 +1,12 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-import { Field, ObjectType, InputType, ID } from '@nestjs/graphql';
+import { Field, ObjectType, InputType, Int } from '@nestjs/graphql';
 
 @Entity('category')
 @InputType('category_input')
 @ObjectType()
 export class Category {
   @PrimaryGeneratedColumn()
-  @Field(() => ID, { nullable: false })
+  @Field(() => Int, { nullable: false })
   id?: number;
 
   @Column()
