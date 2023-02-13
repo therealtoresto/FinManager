@@ -2,18 +2,15 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Category {
+type Bank {
+  balance: Float!
   id: Int!
   name: String!
 }
 
-type Transaction {
+type Category {
   id: Int!
-  amount: Float!
-  type: String!
-  bank: Bank!
-  categories: [Category!]!
-  createdAt: DateTime!
+  name: String!
 }
 
 """
@@ -21,10 +18,24 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
-type Bank {
-  id: Int!
-  name: String!
-  balance: Float!
+type Mutation {
+  createBank(balance: Float!, name: String!): Bank!
+  createCategory(name: String!): Category!
+  createTransaction(transaction: transaction_input!): Transaction!
+  deleteBank(id: ID!): Bank!
+  deleteCategory(id: ID!): Category!
+  deleteTransaction(id: Int!): Transaction!
+  updateBank(balance: Float!, id: ID!, name: String!): Bank!
+  updateCategory(id: ID!, name: String!): Category!
+}
+
+type Query {
+  getBankById(id: ID!): Bank!
+  getBanks: [Bank!]!
+  getCategories: [Category!]!
+  getCategoryById(id: ID!): Category!
+  getStatisctics(from: DateTime!, ids: [Int!]!, to: DateTime!): [StatisticsOutput!]!
+  getTransactions(args: transaction_args!): [Transaction!]!
 }
 
 type StatisticsOutput {
@@ -32,24 +43,24 @@ type StatisticsOutput {
   value: Float!
 }
 
-input category_input {
+type Transaction {
+  amount: Float!
+  bank: Bank!
+  categories: [Category!]!
+  createdAt: DateTime!
   id: Int!
-  name: String!
+  type: String!
 }
 
 input bank_input {
+  balance: Float!
   id: Int!
   name: String!
-  balance: Float!
 }
 
-type Query {
-  getBankById(id: ID!): Bank!
-  getBanks: [Bank!]!
-  getTransactions(args: transaction_args!): [Transaction!]!
-  getCategoryById(id: ID!): Category!
-  getCategories: [Category!]!
-  getStatisctics(ids: [Int!]!, from: DateTime!, to: DateTime!): [StatisticsOutput!]!
+input category_input {
+  id: Int!
+  name: String!
 }
 
 input transaction_args {
@@ -57,20 +68,9 @@ input transaction_args {
   take: Int! = 25
 }
 
-type Mutation {
-  createBank(name: String!, balance: Float!): Bank!
-  deleteBank(id: ID!): Bank!
-  updateBank(id: ID!, name: String!, balance: Float!): Bank!
-  createTransaction(transaction: transaction_input!): Transaction!
-  deleteTransaction(id: Int!): Transaction!
-  createCategory(name: String!): Category!
-  deleteCategory(id: ID!): Category!
-  updateCategory(id: ID!, name: String!): Category!
-}
-
 input transaction_input {
   amount: Float!
-  type: String!
   bankId: Int!
   categoriesIds: [Int!]!
+  type: String!
 }

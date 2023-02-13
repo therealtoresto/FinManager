@@ -393,3 +393,6 @@ Temporary Items
 dist
 node_modules
 .DS_Store
+pgdata
+auth
+README.md
